@@ -1,12 +1,11 @@
 import GalleryView from './galleryView.js';
 import ModalController from './modalController.js'; 
+
 export default class GaleryCotroller {
 
     galleryUl = document.querySelector('.js-gallery');
     modal = document.querySelector('.js-lightbox');
-    atr = {};
-
-
+    
     constructor(gallery = []){
         this.gallery = gallery;
         this.galleryView = new GalleryView();
@@ -40,7 +39,7 @@ export default class GaleryCotroller {
     }
 
     handleGalleryClick(e){
-        e.preventDefault();
+        e.preventDefault(); //чтоб не идти по ссылке
         if (e.target.nodeName !== 'IMG') {
             return
         }     
@@ -54,14 +53,14 @@ export default class GaleryCotroller {
     
     openModal(){
         this.modal.classList.add('is-open');
-        this.modalController.keysHandlerRef = this.modalController.keysHandler.bind(this.modalController);
-        window.addEventListener('keydown',this.modalController.keysHandler.bind(this.modalController))
+        document.addEventListener('keydown',this.modalController.keysHandler)
     }
 
     getAttributes (slide){
-      this.atr.src = slide.dataset.source;  //получаем SRC оригинала
-      this.atr.alt = slide.getAttribute('alt');
-      this.modalController.setImgAttributes(this.atr); // отправляем атрибуты контролеру модалки
+      const atr = {};
+      atr.src = slide.dataset.source;  //получаем SRC оригинала
+      atr.alt = slide.getAttribute('alt');
+      this.modalController.setImgAttributes(atr); // отправляем атрибуты контролеру модалки
     }
 
 }
